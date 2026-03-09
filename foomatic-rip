@@ -1,0 +1,23 @@
+#!/bin/bash
+# foomatic-rip replacement for HP LaserJet 1020
+# 自动发送固件 + 打印
+
+FIRMWARE="/usr/local/share/foo2zjs/firmware/sihp1020.dl"
+FOO2ZJS="/usr/libexec/cups/filter/foo2zjs"
+GS="/usr/local/bin/gs-static"
+PRINTER="HP_LaserJet_1020"
+
+# 自动发送固件（每次打印前）
+if [ -f "$FIRMWARE" ]; then
+    lp -oraw -d "$PRINTER" "$FIRMWARE" 2>/dev/null &
+    sleep 1
+fi
+
+# 转换并打印
+"$GS" -q -dBATCH -dSAFER -dQUIET -dNOPAUSE \
+    -sDEVICE=pbmraw -r1200x600 \
+    -sPAPERSIZE=a4 \
+    -sOutputFile=- - | \
+"$FOO2ZJS" -r1200x600 -p9 -P -z1 -L0
+
+exit 0
