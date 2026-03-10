@@ -1,3 +1,5 @@
+[English](./README_EN.md) | **中文**
+
 # HP LaserJet 1020 Plus 驱动安装说明
 
 ## GitHub 仓库
@@ -36,11 +38,7 @@ git clone https://github.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver.git
 cd hp-laserjet-1020-plus-macos-driver
 ```
 
-或者直接从桌面文件夹复制。
-
 ### 步骤 2：安装文件到系统目录
-
-打开终端，执行以下命令：
 
 ```bash
 # 创建目录
@@ -87,16 +85,9 @@ sudo killall -HUP cupsd
 
 ## 一键安装命令
 
-将以下内容复制到终端执行：
-
 ```bash
-# 进入下载目录
 cd ~/Desktop/HP\ Laser\ Jet\ 1020\ plus驱动安装
 
-# 或使用 git clone 后进入目录
-# cd hp-laserjet-1020-plus-macos-driver
-
-# 一键安装
 sudo mkdir -p /usr/local/share/foo2zjs/firmware
 sudo cp sihp1020.dl /usr/local/share/foo2zjs/firmware/
 sudo cp gs-static /usr/local/bin/ && sudo chmod +x /usr/local/bin/gs-static
@@ -112,8 +103,6 @@ echo "安装完成！请在系统设置中添加打印机。"
 ---
 
 ## 卸载方法
-
-如需卸载，执行以下命令：
 
 ```bash
 sudo rm -f /usr/local/share/foo2zjs/firmware/sihp1020.dl
@@ -155,13 +144,10 @@ ls -la /usr/local/bin/gs-static
 
 ## 关于 HP 官方驱动
 
-HP 官方驱动包不包含 HP LaserJet 1020 的支持，原因：
-
-1. HP LaserJet 1020 使用特殊的 Zenographics ZJS 协议
-2. HP 官方驱动尝试使用 CP1022 驱动替代，但会导致 "Filter failed" 错误
-3. 必须使用 foo2zjs 开源驱动才能正常工作
-
-**本方案完全使用开源驱动，不依赖 HP 官方驱动包。**
+HP 官方驱动包不包含 HP LaserJet 1020 的支持：
+- HP LaserJet 1020 使用特殊的 Zenographics ZJS 协议
+- HP 官方驱动尝试使用 CP1022 驱动替代，但会导致错误
+- 必须使用 foo2zjs 开源驱动才能正常工作
 
 ---
 
@@ -178,16 +164,6 @@ HP 官方驱动包不包含 HP LaserJet 1020 的支持，原因：
 - macOS Sequoia (15.x)
 - macOS Sonoma (14.x)
 - macOS Ventura (13.x)
-- 其他版本未测试，但理论上应该支持
-
----
-
-## 许可证
-
-- `foo2zjs`: GPL v2
-- `Ghostscript`: AGPL v3
-- `sihp1020.dl`: HP 专有固件
-- 其他文件: MIT License
 
 ---
 
@@ -195,5 +171,3 @@ HP 官方驱动包不包含 HP LaserJet 1020 的支持，原因：
 
 - [foo2zjs 项目](https://github.com/OpenPrinting/foo2zjs)
 - [OpenPrinting](https://openprinting.org/)
-- [Apple Discussions 原始讨论](https://discussions.apple.com/thread/255831271)
-
