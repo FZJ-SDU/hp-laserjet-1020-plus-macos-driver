@@ -1,5 +1,11 @@
 # HP LaserJet 1020 Plus 驱动安装说明
 
+## GitHub 仓库
+
+**下载地址：https://github.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver**
+
+---
+
 ## 背景
 
 HP LaserJet 1020 Plus 是一款老旧的打印机，HP 官方已不再提供 macOS 驱动支持。该打印机采用 Zenographics ZJS 协议，需要使用开源的 foo2zjs 驱动，并且**每次打印机开机后需要上传固件**才能正常工作。
@@ -10,19 +16,29 @@ HP LaserJet 1020 Plus 是一款老旧的打印机，HP 官方已不再提供 mac
 
 ## 文件说明
 
-| 文件名 | 说明 |
-|--------|------|
-| `sihp1020.dl` | HP 1020 打印机固件（每次开机需要上传到打印机） |
-| `foo2zjs` | 将 PBM 格式转换为 ZJS 格式的过滤器 |
-| `foomatic-rip` | CUPS 打印过滤器脚本（自动发送固件+转换格式） |
-| `gs-static` | 静态编译的 Ghostscript（将 PDF/PS 转换为 PBM） |
-| `HP-LaserJet_1020.ppd` | 打印机描述文件 |
+| 文件名 | 说明 | 下载链接 |
+|--------|------|----------|
+| `sihp1020.dl` | HP 1020 打印机固件 | [下载](https://raw.githubusercontent.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver/main/sihp1020.dl) |
+| `foo2zjs` | 将 PBM 格式转换为 ZJS 格式的过滤器 | [下载](https://raw.githubusercontent.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver/main/foo2zjs) |
+| `foomatic-rip` | CUPS 打印过滤器脚本（自动发送固件+转换格式） | [下载](https://raw.githubusercontent.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver/main/foomatic-rip) |
+| `gs-static` | 静态编译的 Ghostscript（将 PDF/PS 转换为 PBM） | [下载](https://raw.githubusercontent.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver/main/gs-static) |
+| `HP-LaserJet_1020.ppd` | 打印机描述文件 | [下载](https://raw.githubusercontent.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver/main/HP-LaserJet_1020.ppd) |
 
 ---
 
 ## 安装步骤
 
-### 步骤 1：安装文件到系统目录
+### 步骤 1：下载文件
+
+```bash
+# 克隆仓库
+git clone https://github.com/FZJ-SDU/hp-laserjet-1020-plus-macos-driver.git
+cd hp-laserjet-1020-plus-macos-driver
+```
+
+或者直接从桌面文件夹复制。
+
+### 步骤 2：安装文件到系统目录
 
 打开终端，执行以下命令：
 
@@ -31,31 +47,31 @@ HP LaserJet 1020 Plus 是一款老旧的打印机，HP 官方已不再提供 mac
 sudo mkdir -p /usr/local/share/foo2zjs/firmware
 
 # 复制固件文件
-sudo cp ~/Desktop/HP\ Laser\ Jet\ 1020\ plus驱动安装/sihp1020.dl /usr/local/share/foo2zjs/firmware/
+sudo cp sihp1020.dl /usr/local/share/foo2zjs/firmware/
 
 # 复制静态 Ghostscript
-sudo cp ~/Desktop/HP\ Laser\ Jet\ 1020\ plus驱动安装/gs-static /usr/local/bin/
+sudo cp gs-static /usr/local/bin/
 sudo chmod +x /usr/local/bin/gs-static
 
 # 复制 foo2zjs 过滤器
-sudo cp ~/Desktop/HP\ Laser\ Jet\ 1020\ plus驱动安装/foo2zjs /usr/libexec/cups/filter/
+sudo cp foo2zjs /usr/libexec/cups/filter/
 sudo chmod +x /usr/libexec/cups/filter/foo2zjs
 
 # 复制 foomatic-rip 过滤器
-sudo cp ~/Desktop/HP\ Laser\ Jet\ 1020\ plus驱动安装/foomatic-rip /usr/libexec/cups/filter/
+sudo cp foomatic-rip /usr/libexec/cups/filter/
 sudo chmod +x /usr/libexec/cups/filter/foomatic-rip
 
 # 复制 PPD 文件
-sudo cp ~/Desktop/HP\ Laser\ Jet\ 1020\ plus驱动安装/HP-LaserJet_1020.ppd /Library/Printers/PPDs/Contents/Resources/
+sudo cp HP-LaserJet_1020.ppd /Library/Printers/PPDs/Contents/Resources/
 ```
 
-### 步骤 2：重启 CUPS 打印服务
+### 步骤 3：重启 CUPS 打印服务
 
 ```bash
 sudo killall -HUP cupsd
 ```
 
-### 步骤 3：连接打印机并添加
+### 步骤 4：连接打印机并添加
 
 1. 用 USB 线连接 HP LaserJet 1020 Plus 到 Mac
 2. 打开 **系统设置 → 打印机与扫描仪**
@@ -63,7 +79,7 @@ sudo killall -HUP cupsd
 4. 选择 **HP LaserJet 1020**
 5. 如果提示选择驱动，选择 **HP LaserJet 1020 Foomatic/foo2zjs-z1**
 
-### 步骤 4：测试打印
+### 步骤 5：测试打印
 
 直接从任意应用程序打印即可，固件会自动上传。
 
@@ -74,9 +90,13 @@ sudo killall -HUP cupsd
 将以下内容复制到终端执行：
 
 ```bash
-# 一键安装脚本
+# 进入下载目录
 cd ~/Desktop/HP\ Laser\ Jet\ 1020\ plus驱动安装
 
+# 或使用 git clone 后进入目录
+# cd hp-laserjet-1020-plus-macos-driver
+
+# 一键安装
 sudo mkdir -p /usr/local/share/foo2zjs/firmware
 sudo cp sihp1020.dl /usr/local/share/foo2zjs/firmware/
 sudo cp gs-static /usr/local/bin/ && sudo chmod +x /usr/local/bin/gs-static
@@ -133,27 +153,15 @@ ls -la /usr/local/bin/gs-static
 
 ---
 
-## 关于 Pacifist 安装的 HP 驱动
+## 关于 HP 官方驱动
 
-通过 Pacifist 安装的 HP 官方驱动（CP1020 系列）**在本方案中没有被使用**。原因是：
+HP 官方驱动包不包含 HP LaserJet 1020 的支持，原因：
 
-1. HP 官方驱动不包含 HP LaserJet 1020 的支持
-2. HP LaserJet 1020 使用特殊的 ZJS 协议，需要 foo2zjs 开源驱动
-3. HP 官方驱动尝试使用 CP1022 驱动替代，但会导致 "Filter failed" 错误
+1. HP LaserJet 1020 使用特殊的 Zenographics ZJS 协议
+2. HP 官方驱动尝试使用 CP1022 驱动替代，但会导致 "Filter failed" 错误
+3. 必须使用 foo2zjs 开源驱动才能正常工作
 
-因此，最终方案完全使用 foo2zjs 开源驱动，不依赖 HP 官方驱动包。
-
----
-
-## 文件来源
-
-| 文件 | 来源 |
-|------|------|
-| sihp1020.dl | https://github.com/OpenPrinting/foo2zjs |
-| foo2zjs | 从 foo2zjs 源码编译 |
-| gs-static | 从 Ghostscript 10.06.0 源码静态编译 |
-| foomatic-rip | 自定义脚本 |
-| HP-LaserJet_1020.ppd | foo2zjs 项目 |
+**本方案完全使用开源驱动，不依赖 HP 官方驱动包。**
 
 ---
 
@@ -162,4 +170,30 @@ ls -la /usr/local/bin/gs-static
 1. **固件上传**：HP 1020 打印机内部没有持久存储，每次开机需要通过 USB 上传固件
 2. **打印流程**：PDF/PS → Ghostscript(pbmraw) → foo2zjs(ZJS) → 打印机
 3. **自动化**：foomatic-rip 过滤器在每次打印前自动发送固件
+
+---
+
+## 适用系统
+
+- macOS Sequoia (15.x)
+- macOS Sonoma (14.x)
+- macOS Ventura (13.x)
+- 其他版本未测试，但理论上应该支持
+
+---
+
+## 许可证
+
+- `foo2zjs`: GPL v2
+- `Ghostscript`: AGPL v3
+- `sihp1020.dl`: HP 专有固件
+- 其他文件: MIT License
+
+---
+
+## 参考资料
+
+- [foo2zjs 项目](https://github.com/OpenPrinting/foo2zjs)
+- [OpenPrinting](https://openprinting.org/)
+- [Apple Discussions 原始讨论](https://discussions.apple.com/thread/255831271)
 
